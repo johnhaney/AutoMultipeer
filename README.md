@@ -2,8 +2,31 @@
 
 Provides a simple interface for establishing MultipeerConnectivity between iOS, visionOS, macOS, and/or tvOS devices
 
-example usage simple chat app:
+Example sending messages,
+```
+manager.send(message, mode: .unreliable)
+```
 
+Sending raw data (pack your own messages):
+```
+manager.send(data, mode: .unreliable)
+```
+
+Example receiving messages,
+```
+for await message in manager.messages() {
+  // do something with each message
+}
+```
+
+Receiving data:
+```
+for await data in manager.data() {
+  // do something with each data
+}
+```
+
+example usage simple chat app:
 ```
 import SwiftUI
 import AutoMultipeer
