@@ -1,10 +1,10 @@
-# AutoMultipeer
+//
+//  ContentView.swift
+//  DeviceChat
+//
+//  Created by John Haney on 5/5/24.
+//
 
-Provides a simple interface for establishing MultipeerConnectivity between iOS, visionOS, macOS, and/or tvOS devices
-
-example usage simple chat app:
-
-```
 import SwiftUI
 import AutoMultipeer
 
@@ -40,5 +40,7 @@ struct ContentView: View {
 }
 
 extension String: MultipeerMessagable {}
-```
 
+#Preview {
+    ContentView()
+}
