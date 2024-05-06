@@ -65,3 +65,17 @@ struct ContentView: View {
 extension String: MultipeerMessagable {}
 ```
 
+**Important: Xcode Project settings required:**
+
+For all platforms, add Bonjour support to your app's Info section with your protocol (DeviceChat example below):
+```
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_devicechat._tcp</string>
+		<string>_devicechat._udp</string>
+	</array>
+```
+
+When you create the MultipeerManager() pass the protocol part (for DeviceChat, that's `devicechat`).
+
+For macOS apps, add either client, server, or both under your app's Signing & Capabilities.
