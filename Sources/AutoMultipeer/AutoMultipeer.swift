@@ -31,6 +31,7 @@ public class MultipeerManager {
     private let browser: MCNearbyServiceBrowser
     private let session: MCSession
     fileprivate var continuations: [(any MultipeerMessagable.Type, (any MultipeerMessagable) async -> Void)] = []
+    fileprivate var dataContinuations: [AsyncStream<Data>.Continuation] = []
     
     deinit {
         advertiser.stopAdvertisingPeer()
@@ -50,6 +51,9 @@ public class MultipeerManager {
                     let message = try JSONDecoder().decode(type, from: data)
                     await handler(message)
                 }
+            }
+            for handler in manager.dataContinuations {
+                handler.yield(data)
             }
         }
     }
@@ -80,9 +84,22 @@ public class MultipeerManager {
         }
     }
     
+    public func data() -> AsyncStream<Data> {
+        AsyncStream(bufferingPolicy: .bufferingNewest(6)) { continuation in
+            Task {
+                await self.build(continuation)
+            }
+        }
+    }
+    
     public func send<Message: MultipeerMessagable>(_ message: Message, mode: MCSessionSendDataMode) throws {
         guard !delegate.peerState.isEmpty else { return }
         let data = try JSONEncoder().encode(message)
+        try session.send(data, toPeers: Array(delegate.peerState.keys), with: mode)
+    }
+    
+    public func send(_ data: Data, mode: MCSessionSendDataMode) throws {
+        guard !delegate.peerState.isEmpty else { return }
         try session.send(data, toPeers: Array(delegate.peerState.keys), with: mode)
     }
     
@@ -92,6 +109,10 @@ public class MultipeerManager {
                 continuation.yield(message)
             }
         }))
+    }
+    
+    func build(_ continuation: AsyncStream<Data>.Continuation) async {
+        dataContinuations.append(continuation)
     }
 }
 
