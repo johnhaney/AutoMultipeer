@@ -45,7 +45,6 @@ public class MultipeerManager {
         var manager: MultipeerManager!
         var session: MCSession!
         func handle(_ data: Data, from: MCPeerID) {
-            print("handle data \(data.count) from \(from.displayName)")
             for (type, handler) in manager.continuations {
                 Task.detached {
                     let message = try JSONDecoder().decode(type, from: data)
@@ -95,12 +94,12 @@ public class MultipeerManager {
     public func send<Message: MultipeerMessagable>(_ message: Message, mode: MCSessionSendDataMode) throws {
         guard !delegate.peerState.isEmpty else { return }
         let data = try JSONEncoder().encode(message)
-        try session.send(data, toPeers: Array(delegate.peerState.keys), with: mode)
+        try session.send(data, toPeers: Array(Set(delegate.peerState.keys).subtracting([myPeerID])), with: mode)
     }
     
     public func send(_ data: Data, mode: MCSessionSendDataMode) throws {
         guard !delegate.peerState.isEmpty else { return }
-        try session.send(data, toPeers: Array(delegate.peerState.keys), with: mode)
+        try session.send(data, toPeers: Array(Set(delegate.peerState.keys).subtracting([myPeerID])), with: mode)
     }
     
     func build<Message: MultipeerMessagable>(_ continuation: AsyncStream<Message>.Continuation) async {
