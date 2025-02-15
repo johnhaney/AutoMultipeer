@@ -1,9 +1,11 @@
 # AutoMultipeer
 
-Provides a simple interface for establishing MultipeerConnectivity between iOS, visionOS, macOS, and/or tvOS devices
+Provides a simple interface for establishing MultipeerConnectivity between iOS, visionOS, macOS, and/or tvOS devices for connecting and sending messages between devices on the same local network.
 
 Example sending messages,
 ```
+struct MyMessageType: MultipeerMessagable {}
+message = MyMessageType()
 manager.send(message, mode: .unreliable)
 ```
 
@@ -26,7 +28,7 @@ for await data in manager.data() {
 }
 ```
 
-example usage simple chat app:
+example usage simple chat app (in this repo, look in DeviceChat folder):
 ```
 import SwiftUI
 import AutoMultipeer
@@ -77,5 +79,9 @@ For all platforms, add Bonjour support to your app's Info section with your prot
 ```
 
 When you create the MultipeerManager() pass the protocol part (for DeviceChat, that's `devicechat`).
+
+```
+manager = MultipeerManager(serviceName: "devicechat")
+```
 
 For macOS apps, add either client, server, or both under your app's Signing & Capabilities.

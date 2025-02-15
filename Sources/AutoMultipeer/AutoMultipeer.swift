@@ -46,13 +46,15 @@ public class MultipeerManager {
         var session: MCSession!
         func handle(_ data: Data, from: MCPeerID) {
             for (type, handler) in manager.continuations {
-                Task.detached {
+                Task {
                     let message = try JSONDecoder().decode(type, from: data)
                     await handler(message)
                 }
             }
             for handler in manager.dataContinuations {
-                handler.yield(data)
+                Task {
+                    handler.yield(data)
+                }
             }
         }
     }
