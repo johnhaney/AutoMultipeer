@@ -7,7 +7,7 @@
 
 import MultipeerConnectivity
 
-public protocol MultipeerMessagable: Hashable, Codable {}
+public protocol MultipeerMessagable: Hashable, Codable, Sendable {}
 
 public class MultipeerManager {
     public init(serviceName: String, client: Bool = true, server: Bool = true) {
@@ -30,7 +30,7 @@ public class MultipeerManager {
     private let advertiser: MCNearbyServiceAdvertiser
     private let browser: MCNearbyServiceBrowser
     private let session: MCSession
-    fileprivate var continuations: [(any MultipeerMessagable.Type, (any MultipeerMessagable) async -> Void)] = []
+    fileprivate var continuations: [(any MultipeerMessagable.Type, @Sendable (any MultipeerMessagable) async -> Void)] = []
     fileprivate var dataContinuations: [AsyncStream<Data>.Continuation] = []
     
     deinit {
@@ -53,7 +53,7 @@ public class MultipeerManager {
             }
             for handler in manager.dataContinuations {
                 Task {
-                    handler.yield(data)
+                    _ = handler.yield(data)
                 }
             }
         }
@@ -79,17 +79,13 @@ public class MultipeerManager {
     
     public func messages<Message: MultipeerMessagable>() -> AsyncStream<Message> {
         AsyncStream(bufferingPolicy: .bufferingNewest(6)) { continuation in
-            Task {
-                await self.build(continuation)
-            }
+            self.build(continuation)
         }
     }
     
     public func data() -> AsyncStream<Data> {
         AsyncStream(bufferingPolicy: .bufferingNewest(6)) { continuation in
-            Task {
-                await self.build(continuation)
-            }
+            self.build(continuation)
         }
     }
     
@@ -104,15 +100,17 @@ public class MultipeerManager {
         try session.send(data, toPeers: Array(Set(delegate.peerState.keys).subtracting([myPeerID])), with: mode)
     }
     
-    func build<Message: MultipeerMessagable>(_ continuation: AsyncStream<Message>.Continuation) async {
+    func build<Message: MultipeerMessagable>(_ continuation: AsyncStream<Message>.Continuation) {
         continuations.append((Message.self, { message in
             if let message = message as? Message {
-                continuation.yield(message)
+                Task {
+                    _ = continuation.yield(message)
+                }
             }
         }))
     }
     
-    func build(_ continuation: AsyncStream<Data>.Continuation) async {
+    func build(_ continuation: AsyncStream<Data>.Continuation) {
         dataContinuations.append(continuation)
     }
 }
