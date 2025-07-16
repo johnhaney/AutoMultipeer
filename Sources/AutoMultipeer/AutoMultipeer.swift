@@ -59,21 +59,28 @@ public class MultipeerManager {
         }
     }
     
-    private func startBrowsing() {
+    public func startBrowsing() {
+        delegate.manager = self
         browser.delegate = delegate
         browser.startBrowsingForPeers()
+        print("browser starting…")
     }
 
-    private func startAdvertising() {
+    public func startAdvertising() {
+        delegate.manager = self
         advertiser.delegate = delegate
         advertiser.startAdvertisingPeer()
+        print("advertiser starting…")
     }
     
-    private func stop() {
+    public func stop() {
+        delegate.manager = nil
         browser.stopBrowsingForPeers()
+        print("browser STOPPED")
         browser.delegate = nil
 
         advertiser.stopAdvertisingPeer()
+        print("advertiser STOPPED")
         advertiser.delegate = nil
     }
     
