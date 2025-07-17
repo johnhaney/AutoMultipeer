@@ -39,7 +39,9 @@ struct ContentView: View {
     }
 }
 
-extension String: MultipeerMessagable {}
+extension String: MultipeerMessagable {
+    public static var typeIdentifier: UInt8 { 1 }
+}
 
 #Preview {
     ContentView()
