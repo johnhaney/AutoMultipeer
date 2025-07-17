@@ -132,9 +132,7 @@ public class MultipeerManager {
         var messageData = length
         messageData.append(contentsOf: [Message.typeIdentifier])
         messageData.append(data)
-        print("SEND \(messageData.count) bytes from peer \(myPeerID.displayName)")
         try session.send(messageData, toPeers: remotePeers, with: mode)
-        print("SENT \(messageData.count) bytes from peer \(myPeerID.displayName)")
     }
     
     public func send(_ data: Data, typeIdentifier: UInt8 = 0, mode: MCSessionSendDataMode) throws {
@@ -144,9 +142,7 @@ public class MultipeerManager {
         var messageData = length
         messageData.append(contentsOf: [typeIdentifier])
         messageData.append(data)
-        print("SEND \(messageData.count) bytes from peer \(myPeerID.displayName)")
         try session.send(messageData, toPeers: remotePeers, with: mode)
-        print("SENT \(messageData.count) bytes from peer \(myPeerID.displayName)")
     }
     
     func build<M: MultipeerMessagable>(_ continuation: AsyncStream<M>.Continuation) {
@@ -174,12 +170,20 @@ extension MultipeerManager.Delegate: MCNearbyServiceBrowserDelegate {
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         print("browser lost peer \(peerID.displayName)")
     }
+    
+    func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: any Error) {
+        print("browser did not start: \(error.localizedDescription)")
+    }
 }
 
 extension MultipeerManager.Delegate: MCNearbyServiceAdvertiserDelegate {
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         print("advertiser invite from peer \(peerID.displayName)")
         invitationHandler(true, session)
+    }
+    
+    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: any Error) {
+        print("advertiser did not start: \(error.localizedDescription)")
     }
 }
 
@@ -200,9 +204,7 @@ extension MultipeerManager.Delegate: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        print("RECV \(data.count) bytes from peer \(peerID.displayName)")
         handle(data, from: peerID)
-        print("RCVD \(data.count) bytes from peer \(peerID.displayName)")
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
