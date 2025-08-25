@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		59A338C72E557AA200DFDE50 /* SampleCode.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 59A338C52E557AA200DFDE50 /* SampleCode.xcconfig */; };
 		59A410FE2BE8632A00F21521 /* DeviceChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A410FD2BE8632A00F21521 /* DeviceChatApp.swift */; };
 		59A411002BE8632A00F21521 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A410FF2BE8632A00F21521 /* ContentView.swift */; };
 		59A411022BE8632B00F21521 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59A411012BE8632B00F21521 /* Assets.xcassets */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		59A338C52E557AA200DFDE50 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SampleCode.xcconfig; sourceTree = "<group>"; };
 		59A410FA2BE8632A00F21521 /* DeviceChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeviceChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59A410FD2BE8632A00F21521 /* DeviceChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceChatApp.swift; sourceTree = "<group>"; };
 		59A410FF2BE8632A00F21521 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -36,6 +38,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		59A338C62E557AA200DFDE50 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				59A338C52E557AA200DFDE50 /* SampleCode.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		59A410F12BE8632A00F21521 = {
 			isa = PBXGroup;
 			children = (
@@ -59,6 +69,7 @@
 				59A410FD2BE8632A00F21521 /* DeviceChatApp.swift */,
 				59A410FF2BE8632A00F21521 /* ContentView.swift */,
 				59A411012BE8632B00F21521 /* Assets.xcassets */,
+				59A338C62E557AA200DFDE50 /* Configuration */,
 				59A411032BE8632B00F21521 /* DeviceChat.entitlements */,
 				59A411042BE8632B00F21521 /* Preview Content */,
 			);
@@ -138,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59A411062BE8632B00F21521 /* Preview Assets.xcassets in Resources */,
+				59A338C72E557AA200DFDE50 /* SampleCode.xcconfig in Resources */,
 				59A411022BE8632B00F21521 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,7 +292,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DeviceChat/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MGR5KS574J;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -302,6 +314,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.appsyoucanmake.DeviceChat.${SAMPLE_CODE_DISAMBIGUATOR}";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "com.appsyoucanmake.DeviceChat.${SAMPLE-CODE-DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SAMPLE_CODE_DISAMBIGUATOR = "$(DEVELOPMENT_TEAM)";
 				SDKROOT = auto;
@@ -321,7 +334,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DeviceChat/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = MGR5KS574J;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -343,6 +356,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.appsyoucanmake.DeviceChat.${SAMPLE_CODE_DISAMBIGUATOR}";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "com.appsyoucanmake.DeviceChat.${SAMPLE-CODE-DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SAMPLE_CODE_DISAMBIGUATOR = "$(DEVELOPMENT_TEAM)";
 				SDKROOT = auto;
